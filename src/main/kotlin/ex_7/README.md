@@ -23,7 +23,7 @@ This example shows how to:
 
 - Alice and Bob both initially connect to the Broker.
 - Alice establishes a direct P2P connection with Bob and sends a message.
-- Alice disconnects from the Broker using the method [`CrolangP2P.kt.disconnectFromBroker()`].
+- Alice disconnects from the Broker using the method [`CrolangP2P.kt.disconnectFromBroker(onSuccess, onError)`].
 - Despite the disconnection from the Broker, Alice and Bob can continue exchanging messages through the already established P2P channel.
 
 ## Expected Output

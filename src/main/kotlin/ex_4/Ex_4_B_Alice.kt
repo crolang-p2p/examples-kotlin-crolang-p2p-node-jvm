@@ -4,12 +4,19 @@ import org.crolangP2P.Constants.ALICE_ID
 import org.crolangP2P.Constants.BOB_ID
 import org.crolangP2P.Constants.BROKER_ADDR
 import org.crolangP2P.Constants.CAROL_ID
-import org.crolangP2P.CrolangP2P
-import org.crolangP2P.SyncCrolangNodeCallbacks
+import org.crolangP2P.CrolangP2PJvm
+import org.crolangP2P.OutgoingCrolangNodeCallbacks
 
 fun main(){
 
-    val bobSyncCallbacks = SyncCrolangNodeCallbacks(
+    val bobCallbacks = OutgoingCrolangNodeCallbacks(
+        onConnectionSuccess = { node ->
+            println("Connected to Node ${node.id} successfully")
+            node.send("GREETINGS_CHANNEL", "Hello there!")
+        },
+        onConnectionFailed = { id, reason ->
+            println("Failed to connect to Node $id: $reason")
+        },
         onDisconnection = { id -> println("Node $id disconnected") },
         onNewMsg = mapOf(
             "CHANNEL_LETTERS" to { node, msg ->
@@ -21,7 +28,14 @@ fun main(){
         )
     )
 
-    val carolSyncCallbacks = SyncCrolangNodeCallbacks(
+    val carolCallbacks = OutgoingCrolangNodeCallbacks(
+        onConnectionSuccess = { node ->
+            println("Connected to Node ${node.id} successfully")
+            node.send("GREETINGS_CHANNEL", "Hello there!")
+        },
+        onConnectionFailed = { id, reason ->
+            println("Failed to connect to Node $id: $reason")
+        },
         onDisconnection = { id -> println("Node $id disconnected") },
         onNewMsg = mapOf(
             "CHANNEL_ANIMALS" to { node, msg ->
@@ -30,23 +44,24 @@ fun main(){
         )
     )
 
-    CrolangP2P.Kotlin.connectToBroker(BROKER_ADDR, ALICE_ID)
-        .onSuccess {
-
+    CrolangP2PJvm.Kotlin.connectToBroker(
+        BROKER_ADDR,
+        ALICE_ID,
+        onSuccess = {
             println("Connected to Broker at $BROKER_ADDR as $ALICE_ID")
 
-            CrolangP2P.Kotlin.connectToMultipleNodesSync(mapOf(
-                BOB_ID to bobSyncCallbacks,
-                CAROL_ID to carolSyncCallbacks
-            )).forEach{ entry ->
-                entry.value.onFailure {
-                    println("Failed to connect to Node ${entry.key}: $it")
-                }.onSuccess { node ->
-                    println("Connected to Node ${node.id} successfully")
-                    node.send("GREETINGS_CHANNEL", "Hello there!")
+            CrolangP2PJvm.Kotlin.connectToMultipleNodes(
+                targets = mapOf(
+                    BOB_ID to bobCallbacks,
+                    CAROL_ID to carolCallbacks
+                ),
+                onConnectionAttemptConcluded = { successful, errors ->
+                    println("All connection attempts concluded")
+                    successful.forEach{ entry -> println("Connected to Node ${entry.key} successfully") }
+                    errors.forEach{ entry -> println("Failed to connect to Node ${entry.key}: ${entry.value}") }
                 }
-            }
-
+            )
         }
+    )
 
 }

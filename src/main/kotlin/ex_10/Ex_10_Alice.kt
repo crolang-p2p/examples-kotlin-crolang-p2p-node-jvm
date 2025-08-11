@@ -3,7 +3,8 @@ package ex_10
 import org.crolangP2P.Constants.ALICE_ID
 import org.crolangP2P.Constants.BOB_ID
 import org.crolangP2P.Constants.BROKER_ADDR
-import org.crolangP2P.CrolangP2P
+import org.crolangP2P.CrolangP2PJvm
+import org.crolangP2P.OutgoingCrolangNodeCallbacks
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
@@ -24,14 +25,20 @@ fun main() {
 
     println("Bytes to send: ${toSend.toByteArray().size}")
 
-    CrolangP2P.Kotlin.connectToBroker(BROKER_ADDR, ALICE_ID).onSuccess {
-        println("Connected to Broker at $BROKER_ADDR as $ALICE_ID")
+    CrolangP2PJvm.Kotlin.connectToBroker(
+        BROKER_ADDR,
+        ALICE_ID,
+        onSuccess = {
+            println("Connected to Broker at $BROKER_ADDR as $ALICE_ID")
 
-        CrolangP2P.Kotlin.connectToSingleNodeSync(BOB_ID).onSuccess {
-            println("Connected to Node ${it.id} successfully")
-            println("Sending large data to Node ${it.id}...")
-            val sendResult = it.send("LARGE_DATA_TRANSFER", toSend)
-            println("Data sent result: $sendResult")
+            CrolangP2PJvm.Kotlin.connectToSingleNode(BOB_ID, OutgoingCrolangNodeCallbacks(
+                onConnectionSuccess = {
+                    println("Connected to Node ${it.id} successfully")
+                    println("Sending large data to Node ${it.id}...")
+                    val sendResult = it.send("LARGE_DATA_TRANSFER", toSend)
+                    println("Data sent result: $sendResult")
+                }
+            ))
         }
-    }
+    )
 }
