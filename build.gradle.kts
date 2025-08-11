@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "1.9.23"
+    kotlin("jvm") version "2.1.21"
     application
 }
 
@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-    implementation("io.github.crolang-p2p:crolang-p2p-node-jvm:0.2.2-alpha")
+    implementation("io.github.crolang-p2p:crolang-p2p-node-jvm:0.5.0-alpha")
     implementation("com.google.code.gson:gson:2.10.1")
 }
 

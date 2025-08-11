@@ -24,8 +24,8 @@ This example shows how a node can:
 
 - Bob connects to the Broker as usual.
 - Alice connects to the Broker and uses the following methods:
-    - `isRemoteNodeConnectedToBroker(BOB_ID)` to check if Bob is connected.
-    - `areRemoteNodesConnectedToBroker(Set.of(BOB_ID, CAROL_ID))` to check the status of Bob and Carol.
+    - `isRemoteNodeConnectedToBroker(BOB_ID, onResult, onError)` to check if Bob is connected.
+    - `areRemoteNodesConnectedToBroker(Set.of(BOB_ID, CAROL_ID), onResult, onError)` to check the status of Bob and Carol.
 - These methods can be used with any node ID or set of node IDs, not just Bob and Carol, to generically check the connectivity of any peer(s) in the network.
 - Alice prints the results of these checks and handles any errors that may occur, printing appropriate error messages.
 

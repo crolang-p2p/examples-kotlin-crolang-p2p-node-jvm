@@ -3,12 +3,19 @@ package ex_4
 import org.crolangP2P.Constants.ALICE_ID
 import org.crolangP2P.Constants.BOB_ID
 import org.crolangP2P.Constants.BROKER_ADDR
-import org.crolangP2P.CrolangP2P
-import org.crolangP2P.SyncCrolangNodeCallbacks
+import org.crolangP2P.CrolangP2PJvm
+import org.crolangP2P.OutgoingCrolangNodeCallbacks
 
 fun main(){
 
-    val syncCrolangNodeCallbacks = SyncCrolangNodeCallbacks(
+    val callbacks = OutgoingCrolangNodeCallbacks(
+        onConnectionSuccess = { node ->
+            println("Connected to Node ${node.id} successfully")
+            node.send("GREETINGS_CHANNEL", "Hello there!")
+        },
+        onConnectionFailed = { id, reason ->
+            println("Failed to connect to Node $id: $reason")
+        },
         onDisconnection = { id -> println("Node $id disconnected") },
         onNewMsg = mapOf(
             "CHANNEL_LETTERS" to { node, msg ->
@@ -20,20 +27,13 @@ fun main(){
         )
     )
 
-    CrolangP2P.Kotlin.connectToBroker(BROKER_ADDR, ALICE_ID)
-        .onSuccess {
-
+    CrolangP2PJvm.Kotlin.connectToBroker(
+        BROKER_ADDR,
+        ALICE_ID,
+        onSuccess = {
             println("Connected to Broker at $BROKER_ADDR as $ALICE_ID")
-
-            CrolangP2P.Kotlin.connectToSingleNodeSync(
-                BOB_ID, syncCrolangNodeCallbacks
-            ).onFailure {
-                println("Failed to connect to Node $BOB_ID: $it")
-            }.onSuccess { node ->
-                println("Connected to Node ${node.id} successfully")
-                node.send("GREETINGS_CHANNEL", "Hello there!")
-            }
-
+            CrolangP2PJvm.Kotlin.connectToSingleNode(BOB_ID, callbacks)
         }
+    )
 
 }

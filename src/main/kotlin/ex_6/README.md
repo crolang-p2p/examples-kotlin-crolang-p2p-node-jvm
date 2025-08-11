@@ -28,8 +28,8 @@ This example shows how a node can:
 - Bob and Carol each connect to the Broker and allow incoming connections/messages.
 - Alice connects to the Broker and establishes P2P connections to Bob and Carol.
 - Alice uses:
-    - `getConnectedNode(BOB_ID)` to check if Bob is currently connected to her and send a message if so.
-    - `getAllConnectedNodes()` to retrieve all nodes currently connected to her and send a message to Carol if connected.
+    - `getConnectedNode(BOB_ID, onResult)` to check if Bob is currently connected to her and send a message if so.
+    - `getAllConnectedNodes(onResult)` to retrieve all nodes currently connected to her and send a message to Carol if connected.
 - The example demonstrates both targeted and bulk retrieval of nodes that are directly connected to your local node (not just those connected to the broker), and shows how this approach is more flexible than relying solely on callback parameters.
 
 ## Expected Output
