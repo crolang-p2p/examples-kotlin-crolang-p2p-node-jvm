@@ -48,8 +48,7 @@ Refer to the [library's Maven Central page](https://central.sonatype.com/artifac
 Each example has its own README with instructions on how to run it. However, before running any example, you need to ensure that you satisfy the requirements.
 
 ### Requirements
-- **Java 11 or higher**: Make sure the command `java -version` returns at least version 11.  
-  **Note:** If you are using linux on an aarch32 or aarch64 architecture, please do not use java 21, as it is not supported by the JVM implementation used by this library. Use any other version of Java 11+ instead.
+- **Java 11 or higher**: Make sure the command `java -version` returns at least version 11.
 - **Crolang Broker running**: Start the CrolangP2P Broker using one of the following methods.
 
 ### Starting the CrolangP2P Broker
