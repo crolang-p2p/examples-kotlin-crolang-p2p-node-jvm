@@ -18,7 +18,7 @@ fun main() {
                     println("Connected successfully to Node ${node.id}")
                     println("Disconnecting from Broker...")
                     CrolangP2PJvm.Kotlin.disconnectFromBroker(
-                        onError = { error -> println("Error disconnecting from Broker: $error") }, //TODO dice sempre che è già disconnesso
+                        onError = { error -> println("Error disconnecting from Broker: $error") },
                         onSuccess = {
                             CrolangP2PJvm.Kotlin.isLocalNodeConnectedToBroker {
                                 println("Is local Node connected to the Broker: $it")
