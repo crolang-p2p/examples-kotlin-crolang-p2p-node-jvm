@@ -12,18 +12,19 @@ fun main() {
     val resourcePath = "/large_file.txt" // ~100 MB file in resources
 
     println("Reading large file...")
-    val content: String = object {}.javaClass.getResourceAsStream(resourcePath)?.use { inputStream ->
-        BufferedReader(InputStreamReader(inputStream)).readText()
+    val content: ByteArray = object {}.javaClass.getResourceAsStream(resourcePath)?.use { inputStream ->
+        BufferedReader(InputStreamReader(inputStream)).readText().toByteArray()
     } ?: error("File not found: $resourcePath")
 
-    println("File read successfully. Bytes: ${content.toByteArray().size}")
+    println("File read successfully. Bytes: ${content.size}")
 
-    var toSend = ""
-    for( i in 0 until 10) { // Repeat the content 10 times to simulate a ~1 GB file
+    println("Repeat the content 10 times to simulate a ~1 GB file")
+    var toSend = ByteArray(0)
+    for( i in 0 until 10) {
         toSend += content
     }
 
-    println("Bytes to send: ${toSend.toByteArray().size}")
+    println("Total bytes to send: ${toSend.size}")
 
     CrolangP2PJvm.Kotlin.connectToBroker(
         BROKER_ADDR,
@@ -34,9 +35,10 @@ fun main() {
             CrolangP2PJvm.Kotlin.connectToSingleNode(BOB_ID, OutgoingCrolangNodeCallbacks(
                 onConnectionSuccess = {
                     println("Connected to Node ${it.id} successfully")
-                    println("Sending large data to Node ${it.id}...")
-                    val sendResult = it.send("LARGE_DATA_TRANSFER", toSend)
-                    println("Data sent result: $sendResult")
+
+                    println("Sending large byte array data to Node ${it.id}...")
+                    val sendResultBytes = it.sendBytes("LARGE_DATA_TRANSFER", toSend)
+                    println("Byte array data sent result: $sendResultBytes")
                 }
             ))
         }

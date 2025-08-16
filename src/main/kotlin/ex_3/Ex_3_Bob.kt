@@ -24,7 +24,7 @@ fun main() {
                 onConnectionSuccess = { node -> println("Connected successfully to Node ${node.id}") },
                 onConnectionFailed = { id, reason -> println("Failed to connect to Node $id: $reason") },
                 onDisconnection = { id -> println("Disconnected from Node $id") },
-                onNewMsg = mapOf(
+                onNewStringMsg = mapOf(
                     "CHANNEL_NUMBERS" to { node, msg ->
                         println("Received a message on CHANNEL_NUMBERS from Node ${node.id}: $msg")
                     },

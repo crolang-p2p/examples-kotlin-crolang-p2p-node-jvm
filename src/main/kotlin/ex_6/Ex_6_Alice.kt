@@ -25,7 +25,7 @@ fun main() {
                         onResult = { node ->
                             if(node != null){
                                 println("Node $BOB_ID is connected")
-                                node.send("GREETINGS_CHANNEL", "Hello ${node.id}!")
+                                node.sendString("GREETINGS_CHANNEL", "Hello ${node.id}!")
                             }
                         }
                     )
@@ -33,7 +33,7 @@ fun main() {
                     CrolangP2PJvm.Kotlin.getAllConnectedNodes{ nodes ->
                         nodes[CAROL_ID]?.let { node ->
                             println("Node $CAROL_ID is connected")
-                            node.send("GREETINGS_CHANNEL", "Hello ${node.id}!")
+                            node.sendString("GREETINGS_CHANNEL", "Hello ${node.id}!")
                         }
                     }
                 }

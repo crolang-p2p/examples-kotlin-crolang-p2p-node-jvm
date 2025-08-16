@@ -19,8 +19,8 @@ fun main(){
                 onConnectionFailed = { id, err -> println("Error while connecting to Node $id: $err") },
                 onConnectionSuccess = { node ->
                     println("Connected successfully to Node ${node.id}")
-                    node.send("CHANNEL_NUMBERS", "42")
-                    node.send("CHANNEL_DISCONNECT")
+                    node.sendString("CHANNEL_NUMBERS", "42")
+                    node.sendString("CHANNEL_DISCONNECT")
                 },
                 onDisconnection = { id ->
                     println("Disconnected from Node $id, trying to reconnect...")

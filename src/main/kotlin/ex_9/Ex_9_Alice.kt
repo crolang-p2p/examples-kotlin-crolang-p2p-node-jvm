@@ -15,12 +15,12 @@ fun main(){
             println("Connected to Broker at $BROKER_ADDR as $ALICE_ID")
 
             CrolangP2PJvm.Kotlin.connectToSingleNode(BOB_ID, OutgoingCrolangNodeCallbacks(
-                onNewMsg = mapOf(
+                onNewStringMsg = mapOf(
                     "REDIRECT_TO_ALICE" to { node, msg -> println("[REDIRECT_TO_ALICE][${node.id}]: $msg") }
                 ),
                 onConnectionSuccess = {
                     println("Connected successfully to Node ${it.id}")
-                    it.send("CONNECT_TO_CAROL", "")
+                    it.sendString("CONNECT_TO_CAROL", "")
                 }
             ))
         }

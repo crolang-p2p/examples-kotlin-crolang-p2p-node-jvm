@@ -18,7 +18,7 @@ fun main(){
             CrolangP2PJvm.Kotlin.connectToSingleNode(
                 BOB_ID,
                 OutgoingCrolangNodeCallbacks(
-                    onNewMsg = mapOf(
+                    onNewStringMsg = mapOf(
                         "GREETINGS_CHANNEL" to { node, msg ->
                             println("Received a message on GREETINGS_CHANNEL from Node ${node.id}: $msg")
                         }
@@ -26,7 +26,7 @@ fun main(){
                     onConnectionFailed = { nodeId, error -> println("Failed to connect to Node $nodeId: $error") },
                     onConnectionSuccess = {
                         println("Connected to Node ${it.id}, platform: ${it.platform}, version: ${it.version}")
-                        it.send("GREETINGS_CHANNEL", "Hello from Node $ALICE_ID")
+                        it.sendString("GREETINGS_CHANNEL", "Hello from Node $ALICE_ID")
                     }
                 )
             )

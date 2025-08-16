@@ -19,10 +19,10 @@ fun main(){
                     onConnectionSuccess = { node ->
                         println("Connected successfully to Node ${node.id}, platform: ${node.platform}, version: ${node.version}")
                     },
-                    onNewMsg = mapOf(
+                    onNewStringMsg = mapOf(
                         "GREETINGS_CHANNEL" to { node, msg ->
                             println("Received a message on GREETINGS_CHANNEL from Node ${node.id}: $msg")
-                            node.send("GREETINGS_CHANNEL", "Hi ${node.id}, I'm Node $BOB_ID")
+                            node.sendString("GREETINGS_CHANNEL", "Hi ${node.id}, I'm Node $BOB_ID")
                         }
                     )
                 ),

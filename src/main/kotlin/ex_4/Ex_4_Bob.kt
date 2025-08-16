@@ -16,10 +16,10 @@ fun main(){
             CrolangP2PJvm.Kotlin.allowIncomingConnections(IncomingCrolangNodesCallbacks(
                 onConnectionSuccess = { node ->
                     println("Connected to Node ${node.id} successfully")
-                    node.send("CHANNEL_LETTERS", "ABC")
-                    node.send("CHANNEL_NUMBERS", "42")
+                    node.sendString("CHANNEL_LETTERS", "ABC")
+                    node.sendString("CHANNEL_NUMBERS", "42")
                 },
-                onNewMsg = mapOf(
+                onNewStringMsg = mapOf(
                     "GREETINGS_CHANNEL" to { node, msg ->
                         println("Received a message on GREETINGS_CHANNEL from Node ${node.id}: $msg")
                     },

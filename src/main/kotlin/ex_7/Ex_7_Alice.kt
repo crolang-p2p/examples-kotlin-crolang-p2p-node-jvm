@@ -20,7 +20,7 @@ fun main(){
                 onDisconnection = { id ->
                     println("Disconnected from Node $id")
                 },
-                onNewMsg = mapOf(
+                onNewStringMsg = mapOf(
                     "COUNT_CHANNEL" to { node, msg ->
                         println("[COUNT_CHANNEL][${node.id}]: $msg")
                         val i = msg.toInt()
@@ -28,7 +28,7 @@ fun main(){
                             println("Counter threshold exceeded, disconnecting from Node ${node.id}")
                             node.disconnect()
                         } else {
-                            node.send("COUNT_CHANNEL", (i + 1).toString())
+                            node.sendString("COUNT_CHANNEL", (i + 1).toString())
                         }
                     }
                 ),

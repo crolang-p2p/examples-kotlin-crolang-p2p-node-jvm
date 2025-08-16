@@ -20,7 +20,7 @@ fun main() {
                         println("Connected successfully to Node ${node.id}")
                         val msg = "Hello $ALICE_ID, I'm Node $CAROL_ID"
                         println("Sending message to Node ${node.id}: $msg")
-                        node.send("REDIRECT_TO_ALICE", msg)
+                        node.sendString("REDIRECT_TO_ALICE", msg)
                     }
                 ),
                 onSuccess = { println("Incoming connections allowed successfully") }

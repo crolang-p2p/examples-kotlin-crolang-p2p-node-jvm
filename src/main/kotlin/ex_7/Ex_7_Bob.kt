@@ -22,7 +22,7 @@ fun main() {
                         onSuccess = {
                             CrolangP2PJvm.Kotlin.isLocalNodeConnectedToBroker {
                                 println("Is local Node connected to the Broker: $it")
-                                node.send("COUNT_CHANNEL", "0")
+                                node.sendString("COUNT_CHANNEL", "0")
                             }
                         }
                     )
@@ -30,10 +30,10 @@ fun main() {
                 onDisconnection = { id ->
                     println("Disconnected from Node $id")
                 },
-                onNewMsg = mapOf(
+                onNewStringMsg = mapOf(
                     "COUNT_CHANNEL" to { node, msg ->
                         println("[COUNT_CHANNEL][${node.id}]: $msg")
-                        node.send("COUNT_CHANNEL", (msg.toInt() + 1).toString())
+                        node.sendString("COUNT_CHANNEL", (msg.toInt() + 1).toString())
                     }
                 )
             ))

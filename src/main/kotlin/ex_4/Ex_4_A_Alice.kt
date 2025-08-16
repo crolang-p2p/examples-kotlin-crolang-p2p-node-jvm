@@ -11,13 +11,13 @@ fun main(){
     val callbacks = OutgoingCrolangNodeCallbacks(
         onConnectionSuccess = { node ->
             println("Connected to Node ${node.id} successfully")
-            node.send("GREETINGS_CHANNEL", "Hello there!")
+            node.sendString("GREETINGS_CHANNEL", "Hello there!")
         },
         onConnectionFailed = { id, reason ->
             println("Failed to connect to Node $id: $reason")
         },
         onDisconnection = { id -> println("Node $id disconnected") },
-        onNewMsg = mapOf(
+        onNewStringMsg = mapOf(
             "CHANNEL_LETTERS" to { node, msg ->
                 println("Received a message on CHANNEL_LETTERS from Node ${node.id}: $msg")
             },

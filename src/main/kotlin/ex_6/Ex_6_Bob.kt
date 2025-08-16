@@ -14,7 +14,7 @@ fun main() {
             println("Connected to Broker at $BROKER_ADDR as $BOB_ID")
 
             CrolangP2PJvm.Kotlin.allowIncomingConnections(IncomingCrolangNodesCallbacks(
-                onNewMsg = mapOf(
+                onNewStringMsg = mapOf(
                     "GREETINGS_CHANNEL" to { node, msg ->
                         println("Received a message on GREETINGS_CHANNEL from Node ${node.id}: $msg")
                     },
